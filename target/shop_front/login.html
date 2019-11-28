@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员登陆页面</title>
+
+</head>
+<script src="js/jquery-3.3.1.js"></script>
+<script src="js/bootstrap/js/bootstrap.js"></script>
+<link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
+<script src="js/bootbox/bootbox.min.js"></script>
+<body>
+<center><br><h1>会员登陆页面</h1>
+        会员账号<font color="red">*</font>：<input type="text" placeholder="请输入会员账号" name="name" id="name" style="width: 240px;height: 30px;"
+    /><br><font id="check1"></font><br><br>
+        会员密码<font color="red">*</font>：<input type="text" placeholder="请输入会员密码" name="password"  id="password" style="width: 240px;height: 30px;"
+    /><br><br><br>
+        <button type="button" class="btn btn-info" onclick="login()">登陆</button>
+        <a href="reg.html">注册</a>
+
+</center>
+</body>
+
+<script>
+
+
+    function login(){
+        var name = $("#name").val();
+        var password = $("#password").val();
+        var param = {};
+        param.memberName = name;
+        param.password = password;
+        $.ajax({
+            type:"post",
+            url:"http://localhost:8050/member/login.do",
+            data:param,
+            success:function (aaa) {
+                if (aaa.status == 200){
+                    //alert(aaa.data)
+                    //将信息临时存入localstorage
+                    window.localStorage.setItem("token",aaa.data);
+                    //跳转到首页
+                    location.href = "index-student.html";
+                }else {
+                    alert("失败:"+aaa.msg);
+                }
+            }
+        })
+    }
+
+</script>
+</html>
